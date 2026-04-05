@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Create your StartupIQ account and start validating startup ideas with AI." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <!-- Left Branding -->
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">StartupIQ <div class="logo-sub">Intelligence Platform</div></div>
+      </div>
+      <h1 class="auth-headline">Join <span class="text-gradient">1,000+ founders</span> validating ideas smarter.</h1>
+      <p style="color:var(--text-muted);font-size:0.95rem;margin-top:var(--space-md);max-width:420px;">
+        Get AI-powered analysis, find co-founders, and generate your MVP roadmap — all in one platform.
+      </p>
+      <ul class="auth-features" style="margin-top:var(--space-xl);">
+        <li><span class="feat-icon">⚡</span><div><strong style="color:var(--text-primary);">Instant Analysis</strong><br>Results in under 30 seconds via Gemini AI.</div></li>
+        <li><span class="feat-icon">🎯</span><div><strong style="color:var(--text-primary);">Startup Scoring</strong><br>Market demand, monetization, execution difficulty metrics.</div></li>
+        <li><span class="feat-icon">🗺️</span><div><strong style="color:var(--text-primary);">MVP Roadmap</strong><br>Auto-generated 12-week execution plan with tech stack.</div></li>
+      </ul>
+    </div>
+
+    <!-- Right Form -->
+    <div class="auth-right">
+      <h2 class="auth-form-title">Create account</h2>
+      <p class="auth-form-subtitle">Start validating your startup ideas for free</p>
+
+      <div id="signup-alert" class="alert"></div>
+
+      <form id="signup-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name">Full name</label>
+          <input id="name" type="text" class="form-input" placeholder="Jane Founder" autocomplete="name" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input id="email" type="email" class="form-input" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="role">Your role</label>
+          <select id="role" class="form-select">
+            <option value="Founder">🚀 Founder</option>
+            <option value="Developer">💻 Developer</option>
+            <option value="Marketer">📣 Marketer</option>
+            <option value="Designer">🎨 Designer</option>
+            <option value="Other">🌐 Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input id="password" type="password" class="form-input" placeholder="Min 6 characters" autocomplete="new-password" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm-password">Confirm password</label>
+          <input id="confirm-password" type="password" class="form-input" placeholder="Re-enter password" autocomplete="new-password" required />
+        </div>
+
+        <button id="signup-btn" type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:8px;">
+          Create Free Account
+        </button>
+      </form>
+
+      <p class="auth-link" style="margin-top:24px;">Already have an account? <a href="login.html">Sign in →</a></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

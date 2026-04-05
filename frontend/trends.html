@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trends Dashboard — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Track trending startup categories, high-scoring ideas, and weekly activity." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .trend-rank {
+      display: flex; align-items: center; gap: var(--space-md);
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+    }
+    .trend-rank:hover { border-color: var(--border-primary); background: rgba(99,102,241,0.05); }
+    .rank-number { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); width: 24px; flex-shrink: 0;text-align:center; }
+    .rank-bar-wrap { flex: 1; }
+    .rank-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+    .rank-count { font-size: 0.75rem; color: var(--text-muted); margin-left: auto; }
+
+    .top-idea-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md); padding: var(--space-md);
+      display: flex; gap: var(--space-md); align-items: center;
+      transition: all var(--transition-base);
+    }
+    .top-idea-card:hover { border-color: var(--border-primary); box-shadow: var(--shadow-glow); }
+    .top-idea-rank { font-size: 1.4rem; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: var(--text-muted); min-width: 40px; text-align: center; }
+    .top-idea-score { font-size: 1.1rem; font-weight: 800; color: var(--brand-from); min-width: 50px; text-align: right; }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">StartupIQ<div class="logo-sub">Intelligence Platform</div></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="analysis.html"    class="nav-item"><span class="nav-icon">🧠</span> Idea Analysis</a>
+      <a href="trends.html"      class="nav-item"><span class="nav-icon">📈</span> Trends</a>
+      <div class="nav-section-label">Community</div>
+      <a href="invites.html"     class="nav-item"><span class="nav-icon">✉️</span> Invites</a>
+      <a href="connections.html" class="nav-item"><span class="nav-icon">🤝</span> Connections</a>
+      <div class="nav-section-label">Account</div>
+      <a href="#" class="nav-item" id="logout-btn"><span class="nav-icon">🚪</span> Sign Out</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name"></div>
+          <div class="user-role"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Trend Intelligence</h1>
+        <p>Live startup ecosystem insights</p>
+      </div>
+      <div class="header-actions">
+        <button class="hamburger">☰</button>
+        <button class="btn btn-secondary btn-sm" id="refresh-trends">↻ Refresh</button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Summary Stats -->
+      <div class="grid-4 stagger" style="margin-bottom:var(--space-xl);" id="trend-stats">
+        <div class="stat-card">
+          <div class="stat-icon">💡</div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-label">Total Ideas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="stat-recent">—</div>
+          <div class="stat-label">Last 30 Days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-value" id="stat-top-cat">—</div>
+          <div class="stat-label">Top Category</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-value" id="stat-high">—</div>
+          <div class="stat-label">High-Score Ideas</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="gap:var(--space-lg);margin-bottom:var(--space-xl);align-items:start;">
+        <!-- Category Trends -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🔥 Trending Categories</div>
+          </div>
+          <div id="category-list" style="display:flex;flex-direction:column;gap:8px;">
+            <div class="loading-overlay"><div class="spinner spinner-lg"></div></div>
+          </div>
+        </div>
+
+        <!-- Weekly Activity Chart -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">📅 Weekly Activity</div></div>
+          <div class="chart-bar-container" id="weekly-chart">
+            <!-- Bars injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Scoring Ideas -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🏆 Top Scoring Ideas</div>
+            <div class="card-subtitle">Ideas with overall score ≥ 70</div>
+          </div>
+        </div>
+        <div id="top-ideas-list" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="loading-overlay"><div class="spinner spinner-lg"></div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="js/trends.js"></script>
+</body>
+</html>

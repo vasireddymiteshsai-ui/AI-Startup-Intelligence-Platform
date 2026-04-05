@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Idea Analysis — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Deep AI analysis of your startup idea including scores, MVP plan, and similar ideas." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+    .list-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .list-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      transition: border-color var(--transition-fast);
+    }
+    .list-item:hover { border-color: var(--border-primary); }
+    .list-item::before { content: attr(data-icon); flex-shrink: 0; }
+
+    .timeline-item {
+      display: flex; gap: var(--space-md);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-week {
+      font-size: 0.75rem; font-weight: 700; color: var(--brand-from);
+      min-width: 90px; padding-top: 2px;
+    }
+    .timeline-milestone { font-size: 0.875rem; color: var(--text-secondary); }
+
+    .similar-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md); padding: var(--space-md);
+      transition: all var(--transition-base);
+    }
+    .similar-card:hover { border-color: var(--border-primary); box-shadow: var(--shadow-glow); }
+    .similarity-score { font-size: 0.85rem; font-weight: 700; color: var(--brand-accent); }
+
+    .gtm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+    .gtm-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 14px; }
+    .gtm-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .gtm-value { font-size: 0.85rem; color: var(--text-secondary); }
+
+    @media(max-width:768px) { .analysis-grid { grid-template-columns: 1fr; } .gtm-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">StartupIQ<div class="logo-sub">Intelligence Platform</div></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="analysis.html"    class="nav-item"><span class="nav-icon">🧠</span> Idea Analysis</a>
+      <a href="trends.html"      class="nav-item"><span class="nav-icon">📈</span> Trends</a>
+      <div class="nav-section-label">Community</div>
+      <a href="invites.html"     class="nav-item"><span class="nav-icon">✉️</span> Invites</a>
+      <a href="connections.html" class="nav-item"><span class="nav-icon">🤝</span> Connections</a>
+      <div class="nav-section-label">Account</div>
+      <a href="#" class="nav-item" id="logout-btn"><span class="nav-icon">🚪</span> Sign Out</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name"></div>
+          <div class="user-role"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Idea Analysis</h1>
+        <p>AI-powered startup validation engine</p>
+      </div>
+      <div class="header-actions">
+        <button class="hamburger">☰</button>
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">← Back to Dashboard</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Idea Selector -->
+      <div class="card" style="margin-bottom:var(--space-lg);">
+        <div class="card-header">
+          <div class="card-title">Select an Idea to Analyze</div>
+        </div>
+        <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;align-items:center;">
+          <select id="idea-select" class="form-select" style="flex:1;max-width:500px;">
+            <option value="">Loading your ideas...</option>
+          </select>
+          <button id="analyze-btn" class="btn btn-primary" disabled>
+            🧠 Run AI Analysis
+          </button>
+        </div>
+        <div id="analyze-alert" class="alert" style="margin-top:var(--space-md);margin-bottom:0;"></div>
+      </div>
+
+      <!-- Analysis Loading -->
+      <div id="analysis-loading" style="display:none;">
+        <div class="loading-overlay" style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);">
+          <div class="spinner spinner-lg"></div>
+          <strong style="color:var(--text-primary);">Analyzing with Gemini AI...</strong>
+          <p style="font-size:0.85rem;max-width:380px;text-align:center;">Running idea validation, scoring, similar idea detection, and MVP planning simultaneously.</p>
+        </div>
+      </div>
+
+      <!-- Analysis Results -->
+      <div id="analysis-results" style="display:none;">
+
+        <!-- Idea Text + Key Metrics -->
+        <div class="card" style="margin-bottom:var(--space-lg);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-md);flex-wrap:wrap;">
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;gap:var(--space-sm);margin-bottom:var(--space-sm);">
+                <span id="viability-badge" class="badge"></span>
+                <span id="competition-badge" class="badge"></span>
+                <span id="category-badge" class="badge badge-purple"></span>
+              </div>
+              <p id="idea-summary" style="color:var(--text-secondary);font-size:0.95rem;line-height:1.7;"></p>
+            </div>
+            <div style="text-align:center;flex-shrink:0;">
+              <!-- Progress Circle SVG -->
+              <div class="progress-circle" style="width:90px;height:90px;">
+                <svg width="90" height="90" viewBox="0 0 90 90">
+                  <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                  <circle id="success-circle" cx="45" cy="45" r="38" fill="none"
+                    stroke="url(#grad)" stroke-width="8"
+                    stroke-dasharray="239" stroke-dashoffset="239"
+                    stroke-linecap="round"
+                    style="transition:stroke-dashoffset 1s ease;"/>
+                  <defs>
+                    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#6366f1"/>
+                      <stop offset="100%" stop-color="#8b5cf6"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="progress-value" id="success-prob-text">—</span>
+              </div>
+              <div style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">Success Prob.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scoring Bars + Adv/Disadv -->
+        <div class="analysis-grid" style="margin-bottom:var(--space-lg);">
+          <!-- Scores -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">📊 Startup Scores</div></div>
+            <div id="scores-section" style="display:flex;flex-direction:column;gap:var(--space-md);">
+              <!-- injected by JS -->
+            </div>
+          </div>
+
+          <!-- Advantages / Disadvantages -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">⚖️ Strengths &amp; Weaknesses</div></div>
+            <p style="font-size:0.78rem;font-weight:600;color:var(--success);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;">✅ Advantages</p>
+            <ul class="list-items" id="advantages-list"></ul>
+            <p style="font-size:0.78rem;font-weight:600;color:var(--danger);margin:var(--space-md) 0 8px;text-transform:uppercase;letter-spacing:.05em;">⚠️ Challenges</p>
+            <ul class="list-items" id="disadvantages-list"></ul>
+          </div>
+        </div>
+
+        <!-- Suggestions + MVP Plan -->
+        <div class="analysis-grid" style="margin-bottom:var(--space-lg);">
+          <!-- Suggestions -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">💡 AI Suggestions</div></div>
+            <ul class="list-items" id="suggestions-list"></ul>
+          </div>
+
+          <!-- Tech Stack -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">🛠️ Suggested Tech Stack</div></div>
+            <div id="tech-stack-section"></div>
+          </div>
+        </div>
+
+        <!-- MVP Timeline -->
+        <div class="card" style="margin-bottom:var(--space-lg);">
+          <div class="card-header">
+            <div class="card-title">🗺️ MVP Development Timeline</div>
+            <span id="cost-estimate" class="badge badge-cyan"></span>
+          </div>
+          <div id="timeline-section"></div>
+        </div>
+
+        <!-- Go-To-Market -->
+        <div class="card" style="margin-bottom:var(--space-lg);">
+          <div class="card-header"><div class="card-title">🚀 Go-To-Market Strategy</div></div>
+          <div id="gtm-section"></div>
+        </div>
+
+        <!-- Similar Ideas -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🔍 Semantically Similar Ideas</div>
+              <div class="card-subtitle">Found via Gemini embeddings + cosine similarity</div>
+            </div>
+          </div>
+          <div id="similar-section">
+            <div class="loading-overlay" style="padding:var(--space-lg);">
+              <div class="spinner"></div>
+              <span style="font-size:0.8rem;color:var(--text-muted);">Scanning for similar ideas...</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end analysis-results -->
+    </main>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="js/analysis.js"></script>
+</body>
+</html>

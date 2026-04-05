@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Your StartupIQ dashboard. Submit ideas, view analyses, track your startup portfolio." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">StartupIQ<div class="logo-sub">Intelligence Platform</div></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="analysis.html"    class="nav-item"><span class="nav-icon">🧠</span> Idea Analysis</a>
+      <a href="trends.html"      class="nav-item"><span class="nav-icon">📈</span> Trends</a>
+      <div class="nav-section-label">Community</div>
+      <a href="invites.html"     class="nav-item"><span class="nav-icon">✉️</span> Invites <span id="invite-badge" style="display:none;background:var(--brand-from);color:#fff;font-size:0.65rem;padding:1px 6px;border-radius:999px;margin-left:4px;"></span></a>
+      <a href="connections.html" class="nav-item"><span class="nav-icon">🤝</span> Connections</a>
+      <div class="nav-section-label">Account</div>
+      <a href="#" class="nav-item" id="logout-btn"><span class="nav-icon">🚪</span> Sign Out</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name"></div>
+          <div class="user-role"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Dashboard</h1>
+        <p id="greeting">Welcome back!</p>
+      </div>
+      <div class="header-actions">
+        <button class="hamburger" aria-label="Toggle menu">☰</button>
+        <button class="btn btn-primary btn-sm" id="new-idea-btn">+ New Idea</button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Stats Row -->
+      <div class="grid-4 stagger" id="stats-row" style="margin-bottom:var(--space-xl);">
+        <div class="stat-card">
+          <div class="stat-icon">💡</div>
+          <div class="stat-value" id="stat-ideas">—</div>
+          <div class="stat-label">Total Ideas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="stat-analyzed">—</div>
+          <div class="stat-label">Analyzed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-value" id="stat-connections">—</div>
+          <div class="stat-label">Connections</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-value" id="stat-avg-score">—</div>
+          <div class="stat-label">Avg Score</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="gap:var(--space-xl); align-items:start;">
+        <!-- Submit Idea Panel -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Submit a Startup Idea</div>
+              <div class="card-subtitle">Describe your idea in detail for better AI analysis</div>
+            </div>
+          </div>
+          <div id="submit-alert" class="alert"></div>
+          <form id="idea-form" novalidate>
+            <div class="form-group">
+              <textarea
+                id="idea-text"
+                class="form-textarea"
+                placeholder="Describe your startup idea in detail... e.g. 'An AI-powered platform that helps restaurants reduce food waste by predicting demand and managing inventory automatically.'"
+                rows="6"
+                maxlength="2000"
+              ></textarea>
+              <div class="char-count"><span id="char-count">0</span>/2000</div>
+            </div>
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-full">
+              Submit Idea
+            </button>
+          </form>
+        </div>
+
+        <!-- My Ideas Panel -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">My Ideas</div>
+              <div class="card-subtitle">Click an idea to see full analysis</div>
+            </div>
+          </div>
+          <div id="ideas-list">
+            <div class="loading-overlay">
+              <div class="spinner spinner-lg"></div>
+              <span style="color:var(--text-muted);font-size:0.875rem;">Loading your ideas...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- New Idea Modal — not needed since we have inline form, but for mobile trigger -->
+<script src="script.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

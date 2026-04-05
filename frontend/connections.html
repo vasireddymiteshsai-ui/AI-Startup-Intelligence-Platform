@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connections — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Your network of builders and co-founders on StartupIQ." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .comment-list { display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; }
+    .comment-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.875rem; }
+    .comment-author { font-size: 0.75rem; font-weight: 700; color: var(--brand-from); margin-bottom: 4px; }
+    .comment-text   { color: var(--text-secondary); }
+    .comment-time   { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">StartupIQ<div class="logo-sub">Intelligence Platform</div></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="analysis.html"    class="nav-item"><span class="nav-icon">🧠</span> Idea Analysis</a>
+      <a href="trends.html"      class="nav-item"><span class="nav-icon">📈</span> Trends</a>
+      <div class="nav-section-label">Community</div>
+      <a href="invites.html"     class="nav-item"><span class="nav-icon">✉️</span> Invites</a>
+      <a href="connections.html" class="nav-item"><span class="nav-icon">🤝</span> Connections</a>
+      <div class="nav-section-label">Account</div>
+      <a href="#" class="nav-item" id="logout-btn"><span class="nav-icon">🚪</span> Sign Out</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name"></div>
+          <div class="user-role"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>My Connections</h1>
+        <p>Builders and co-founders in your network</p>
+      </div>
+      <div class="header-actions">
+        <button class="hamburger">☰</button>
+        <a href="invites.html" class="btn btn-primary btn-sm">+ Invite Builder</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div id="connections-grid" class="grid-auto stagger">
+        <div class="loading-overlay" style="grid-column:1/-1;">
+          <div class="spinner spinner-lg"></div>
+        </div>
+      </div>
+
+      <!-- Workspace / Comments Modal (inline expansion) -->
+      <div id="workspace-panel" style="display:none;margin-top:var(--space-xl);">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">💬 Shared Workspace</div>
+              <div class="card-subtitle" id="workspace-subtitle"></div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="close-workspace">✕ Close</button>
+          </div>
+
+          <div id="comment-list-wrap">
+            <div class="comment-list" id="comment-list">
+              <div class="loading-overlay"><div class="spinner"></div></div>
+            </div>
+          </div>
+
+          <div class="separator"></div>
+
+          <div style="display:flex;gap:var(--space-sm);">
+            <input id="comment-input" class="form-input" placeholder="Add a note or message..." style="flex:1;" maxlength="500" />
+            <button id="post-comment-btn" class="btn btn-primary">Post</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="js/connections.js"></script>
+</body>
+</html>

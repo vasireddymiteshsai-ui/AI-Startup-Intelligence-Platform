@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invites — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Send collaboration invites to builders with similar startup ideas." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .pending-dot {
+      width: 8px; height: 8px;
+      background: var(--brand-from);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+      display: inline-block;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">StartupIQ<div class="logo-sub">Intelligence Platform</div></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-item"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="analysis.html"    class="nav-item"><span class="nav-icon">🧠</span> Idea Analysis</a>
+      <a href="trends.html"      class="nav-item"><span class="nav-icon">📈</span> Trends</a>
+      <div class="nav-section-label">Community</div>
+      <a href="invites.html"     class="nav-item"><span class="nav-icon">✉️</span> Invites</a>
+      <a href="connections.html" class="nav-item"><span class="nav-icon">🤝</span> Connections</a>
+      <div class="nav-section-label">Account</div>
+      <a href="#" class="nav-item" id="logout-btn"><span class="nav-icon">🚪</span> Sign Out</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name"></div>
+          <div class="user-role"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Collaboration Invites</h1>
+        <p>Send and manage collaboration requests</p>
+      </div>
+      <div class="header-actions">
+        <button class="hamburger">☰</button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Tab Navigation -->
+      <div class="tab-nav">
+        <button class="tab-btn active" data-tab="received">📥 Received</button>
+        <button class="tab-btn" data-tab="sent">📤 Sent</button>
+        <button class="tab-btn" data-tab="send-new">✉️ Send Invite</button>
+      </div>
+
+      <!-- Received Invites -->
+      <div id="tab-received" class="tab-panel">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Received Invites</div>
+            <div class="section-subtitle">Collaboration requests from other founders</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="refresh-received">↻ Refresh</button>
+        </div>
+        <div id="received-list">
+          <div class="loading-overlay"><div class="spinner spinner-lg"></div></div>
+        </div>
+      </div>
+
+      <!-- Sent Invites -->
+      <div id="tab-sent" class="tab-panel" style="display:none;">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Sent Invites</div>
+            <div class="section-subtitle">Invites you have sent to other builders</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="refresh-sent">↻ Refresh</button>
+        </div>
+        <div id="sent-list">
+          <div class="loading-overlay"><div class="spinner spinner-lg"></div></div>
+        </div>
+      </div>
+
+      <!-- Send New Invite -->
+      <div id="tab-send-new" class="tab-panel" style="display:none;">
+        <div class="card" style="max-width:560px;">
+          <div class="card-header"><div class="card-title">✉️ Send Collaboration Invite</div></div>
+
+          <div id="send-alert" class="alert"></div>
+
+          <form id="invite-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="to-email">Recipient's email</label>
+              <input id="to-email" type="email" class="form-input" placeholder="founder@example.com" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="invite-idea">Related idea</label>
+              <select id="invite-idea" class="form-select" required>
+                <option value="">Select one of your ideas...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="invite-role">Their role</label>
+              <select id="invite-role" class="form-select">
+                <option value="Collaborator">🌐 Collaborator</option>
+                <option value="Developer">💻 Developer</option>
+                <option value="Marketer">📣 Marketer</option>
+                <option value="Designer">🎨 Designer</option>
+                <option value="Founder">🚀 Co-Founder</option>
+              </select>
+            </div>
+
+            <button type="submit" id="send-invite-btn" class="btn btn-primary btn-full">
+              Send Invite
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="js/invites.js"></script>
+</body>
+</html>

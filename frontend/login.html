@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — AI Startup Intelligence Platform</title>
+  <meta name="description" content="Sign in to validate startup ideas, get AI analysis, and connect with builders." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <!-- Left Branding Panel -->
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="logo-icon">🚀</div>
+        <div class="logo-text">
+          StartupIQ
+          <div class="logo-sub">Intelligence Platform</div>
+        </div>
+      </div>
+
+      <h1 class="auth-headline">
+        Validate ideas.<br>
+        <span class="text-gradient">Build faster.</span><br>
+        Find co-founders.
+      </h1>
+      <p style="color: var(--text-muted); font-size:0.95rem; max-width:440px;">
+        Powered by Google Gemini — get instant AI analysis, semantic similarity detection,
+        scoring metrics, and an auto-generated MVP roadmap in seconds.
+      </p>
+
+      <ul class="auth-features">
+        <li>
+          <span class="feat-icon">🧠</span>
+          <div>
+            <strong style="color:var(--text-primary);">AI Idea Validation</strong><br>
+            Full analysis including viability, advantages, risks &amp; success probability.
+          </div>
+        </li>
+        <li>
+          <span class="feat-icon">🔍</span>
+          <div>
+            <strong style="color:var(--text-primary);">Semantic Similarity Detection</strong><br>
+            Gemini embeddings + cosine similarity to find related ideas.
+          </div>
+        </li>
+        <li>
+          <span class="feat-icon">🤝</span>
+          <div>
+            <strong style="color:var(--text-primary);">Founder Matchmaking</strong><br>
+            Send collaboration invites based on shared idea domains.
+          </div>
+        </li>
+        <li>
+          <span class="feat-icon">📊</span>
+          <div>
+            <strong style="color:var(--text-primary);">Trend Intelligence</strong><br>
+            Spot emerging startup categories and high-scoring ideas.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right Auth Form -->
+    <div class="auth-right">
+      <h2 class="auth-form-title">Welcome back</h2>
+      <p class="auth-form-subtitle">Sign in to your StartupIQ account</p>
+
+      <div id="login-alert" class="alert"></div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input id="email" type="email" class="form-input" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input id="password" type="password" class="form-input" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+
+        <button id="login-btn" type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:8px;">
+          Sign In
+        </button>
+      </form>
+
+      <p class="auth-link" style="margin-top:24px;">
+        Don't have an account? <a href="signup.html">Create one free →</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
